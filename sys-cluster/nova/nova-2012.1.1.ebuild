@@ -42,13 +42,15 @@ DEPEND="dev-python/setuptools
 
 RDEPEND="${DEPEND}
 		 dev-python/m2crypto
-		 >=sys-fs/glance-${PV}
 		 dev-python/boto
 		 dev-python/iso8601
 		 dev-python/kombu
 		 dev-python/prettytable
 		 dev-python/mysql-python
 		 dev-python/python-novaclient
+		 >=sys-fs/glance-${PV}
+		 net-firewall/iptables
+		 net-misc/bridge-utils
 		 controller? ( net-misc/rabbitmq-server )"
 		 #dev-python/nova-adminclient
 
@@ -109,7 +111,10 @@ src_install() {
 	fowners root.root /etc/sudoers.d/nova_sudoers
 
 	# systemd files
+
+	# common
 	systemd_dotmpfilesd "${FILESDIR}/tmpfiles.d/nova.conf" # nova-common
+
 	# nova-controller
 	systemd_dounit "${FILESDIR}/systemd/nova-api.service"
 	systemd_dounit "${FILESDIR}/systemd/nova-scheduler.service"
@@ -118,10 +123,13 @@ src_install() {
 	#systemd_dounit "${FILESDIR}/systemd/nova-xpvncproxy.service"
 	#systemd_dounit "${FILESDIR}/systemd/nova-novncproxy.service"
 	systemd_dounit "${FILESDIR}/systemd/nova-objectstore.service"
+
 	# nova-volume
 	systemd_dounit "${FILESDIR}/systemd/nova-volume.service"
+
 	# nova-network
 	systemd_dounit "${FILESDIR}/systemd/nova-network.service"
+
 	# compute
 	systemd_dounit "${FILESDIR}/systemd/nova-compute.service"
 }

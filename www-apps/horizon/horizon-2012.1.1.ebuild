@@ -23,7 +23,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="+apache2"
 
-DEPEND="=dev-python/django-1.3.1
+DEPEND="~dev-python/django-1.3.1
+		~dev-python/django-nose-1.1
 	    dev-python/python-dateutil
 		dev-python/sphinx
 		dev-python/cherrypy
@@ -43,10 +44,10 @@ DEPEND="=dev-python/django-1.3.1
 		dev-python/pyxattr
 		dev-python/python-gflags
 		dev-python/python-cloudfiles
-		=dev-python/python-keystoneclient-${PV_BASE}*
-		=dev-python/python-novaclient-${PV_BASE}*
-		=sys-fs/glance-${PV}*
 		dev-python/setuptools
+		~dev-python/python-keystoneclient-${PV}
+		=dev-python/python-novaclient-${PV_BASE}*
+		~sys-fs/glance-${PV}
 		apache2? ( www-servers/apache www-apache/mod_wsgi )
 		www-apps/noVNC"
 
@@ -54,10 +55,12 @@ RDEPEND="${DEPEND}"
 
 src_install() {
 	distutils_src_install
+
 	dodoc ${FILESDIR}"/horizon_vhost.conf"
 	dodir /etc/horizon
 	insinto /etc/horizon
 	doins openstack_dashboard/local/local_settings.py.example
+
 	# Little dirty this way, but get's the job done bro
 	dosym /etc/horizon/local_settings.py /usr/lib64/python2.7/site-packages/openstack_dashboard/local/local_settings.py
 }
@@ -67,8 +70,9 @@ pkg_postinst() {
 	elog "A vhost configuration example for apache2 with mod_wsgi can be found"
 	elog "in /usr/share/doc/${PF}/horizon_vhost.conf"
 	elog "Adapt it to suite your needs, and install it in /etc/apache/vhosts.d/"
-	elog "Replace localhost by the real servername"
+	elog "Replace localhost by the real servername and add '-D WSGI' to your"
+	elog "APACHE2_OPTS variable in /etc/conf.d/apache2 file."
 	elog
-	elog "The dashboard can be configured through /etc/horizon/settings.py"
+	elog "The dashboard can be configured through /etc/horizon/settings.py."
 	elog
 }
