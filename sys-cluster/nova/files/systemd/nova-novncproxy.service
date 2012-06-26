@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenStack Nova VNC (noVNC) Proxy
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/nova-novncproxy --flagfile=/etc/nova/nova.conf
+StandardOutput=syslog
+StandardError=syslog
+Restart=always
+User=nova
+
+[Install]
+WantedBy=multi-user.target

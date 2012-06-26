@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenStack Keystone
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/keystone-all
+StandardOutput=syslog
+StandardError=syslog
+Restart=always
+User=keystone
+
+[Install]
+WantedBy=multi-user.target

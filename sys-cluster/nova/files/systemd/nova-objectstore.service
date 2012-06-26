@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenStack Nova Object Store
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/nova-objectstore --flagfile=/etc/nova/nova.conf
+StandardOutput=syslog
+StandardError=syslog
+Restart=always
+User=nova
+
+[Install]
+WantedBy=multi-user.target

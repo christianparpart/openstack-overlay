@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenStack Keystone
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/glance-api
+StandardOutput=syslog
+StandardError=syslog
+Restart=always
+User=glance
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenStack Nova Scheduler Service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/nova-scheduler --flagfile=/etc/nova/nova.conf
+StandardOutput=syslog
+StandardError=syslog
+Restart=always
+User=nova
+
+[Install]
+WantedBy=multi-user.target
