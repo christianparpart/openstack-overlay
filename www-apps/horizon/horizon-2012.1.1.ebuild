@@ -9,6 +9,8 @@ RESTRICT_PYTHON_ABIS="3.*"
 
 inherit distutils eutils
 
+PV_BASE="2012.1"
+
 DESCRIPTION="The OpenStack Dashboard (Horizon) provides a baseline user
 interface for managing OpenStack services. It is a reference implementation
 built using the django-openstack project which contains all of the core
@@ -19,7 +21,7 @@ SRC_URI="http://launchpad.net/${PN}/essex/${PV}/+download/${P}.tar.gz"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
+IUSE="+apache2"
 
 DEPEND="=dev-python/django-1.3.1
 	    dev-python/python-dateutil
@@ -40,11 +42,12 @@ DEPEND="=dev-python/django-1.3.1
 		dev-python/webob
 		dev-python/pyxattr
 		dev-python/python-gflags
-		dev-python/python-keystoneclient
-		dev-python/python-novaclient
 		dev-python/python-cloudfiles
-		~sys-fs/glance-${PV}
+		=dev-python/python-keystoneclient-${PV_BASE}*
+		=dev-python/python-novaclient-${PV_BASE}*
+		=sys-fs/glance-${PV}*
 		dev-python/setuptools
+		apache2? ( www-servers/apache www-apache/mod_wsgi )
 		www-apps/noVNC"
 
 RDEPEND="${DEPEND}"
